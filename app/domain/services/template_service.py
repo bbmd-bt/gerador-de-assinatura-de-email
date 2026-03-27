@@ -1,0 +1,17 @@
+from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+_TEMPLATES_DIR = Path(__file__).parent.parent.parent / "templates"
+
+
+class TemplateService:
+    def __init__(self, templates_dir: Path = _TEMPLATES_DIR) -> None:
+        self._env = Environment(
+            loader=FileSystemLoader(str(templates_dir)),
+            autoescape=select_autoescape(["html"]),
+        )
+
+    def render(self, template_name: str, context: dict) -> str:
+        template = self._env.get_template(template_name)
+        return template.render(**context)

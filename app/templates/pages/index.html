@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Assinatura — BT Blue</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #000000;
+      --blue-light: #ebebeb;
+      --blue-dark: #333333;
+      --orange: #D14954;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #d1d5db;
+      --error: #dc2626;
+      --success: #16a34a;
+      --bg: #f4f4f5;
+      --white: #ffffff;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    }
+
+    .header-bar {
+      width: 4px;
+      height: 38px;
+      background: var(--orange);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    header h1 { font-size: 1.2rem; font-weight: 700; }
+    header p  { font-size: 0.78rem; opacity: 0.82; margin-top: 2px; }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .card + .card { margin-top: 1.5rem; }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── Form ─────────────────────────────────── */
+    .form-group { margin-bottom: 1rem; }
+
+    label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .required { color: var(--error); margin-left: 2px; }
+    .optional  { color: var(--text-muted); font-weight: 400; font-size: 0.75rem; margin-left: 4px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.10);
+    }
+
+    input.error { border-color: var(--error); }
+
+    .field-error {
+      color: var(--error);
+      font-size: 0.78rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+
+    .field-error.visible { display: block; }
+
+    /* ── Buttons ──────────────────────────────── */
+    .btn-primary {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: var(--blue-dark); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-copy {
+      width: 100%;
+      padding: 0.65rem 1.5rem;
+      background: var(--white);
+      color: var(--blue);
+      border: 2px solid var(--blue);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-copy:hover:not(:disabled) { background: var(--blue-light); }
+    .btn-copy:disabled { opacity: 0.38; cursor: not-allowed; }
+    .btn-copy.copied { border-color: var(--success); color: var(--success); }
+
+    /* ── Loading spinner ──────────────────────── */
+    .spinner {
+      display: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-primary.loading .btn-label { display: none; }
+    .btn-primary.loading .spinner   { display: block; }
+
+    /* ── Preview ──────────────────────────────── */
+    #preview-placeholder {
+      border: 2px dashed var(--border);
+      border-radius: 6px;
+      padding: 2.25rem 1rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    #preview-placeholder svg { display: block; margin: 0 auto 0.6rem; }
+
+    #preview-frame {
+      display: none;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--white);
+    }
+
+    .copy-area { margin-top: 1rem; }
+
+    .copy-hint {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      text-align: center;
+      display: none;
+    }
+
+    /* ── Server error ─────────────────────────── */
+    .alert-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: var(--error);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      font-size: 0.83rem;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
+    .alert-error.visible { display: block; }
+
+    /* ── Outlook guide ────────────────────────── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .steps {
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      counter-increment: steps;
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 1rem;
+      font-size: 0.86rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .steps li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .steps li kbd {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 0.8rem;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.25rem 0;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-bar"></div>
+  <div>
+    <h1>Gerador de Assinatura de E-mail</h1>
+    <p>BT Blue — Padronização de assinaturas corporativas</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ── Left column: Form ─────────────────────── -->
+  <div class="card">
+    <div class="card-title">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      Dados do Funcionário
+    </div>
+
+    <form id="signature-form" novalidate>
+
+      <div class="form-group">
+        <label for="full_name">Nome completo <span class="required">*</span></label>
+        <input type="text" id="full_name" name="full_name" placeholder="Ex: João da Silva" autocomplete="name" />
+        <div class="field-error" id="err-full_name">Nome completo é obrigatório.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="job_title">Cargo <span class="required">*</span></label>
+        <input type="text" id="job_title" name="job_title" placeholder="Ex: Desenvolvedor Sênior" />
+        <div class="field-error" id="err-job_title">Cargo é obrigatório.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="department">Departamento <span class="required">*</span></label>
+        <input type="text" id="department" name="department" placeholder="Ex: Tecnologia" />
+        <div class="field-error" id="err-department">Departamento é obrigatório.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="corporate_email">E-mail corporativo <span class="required">*</span></label>
+        <input type="email" id="corporate_email" name="corporate_email" placeholder="joao.silva@btblue.com.br" autocomplete="email" />
+        <div class="field-error" id="err-corporate_email">Informe um e-mail corporativo válido.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Telefone fixo <span class="optional">(opcional)</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="Ex: +55 11 3000-0000" />
+        <div class="field-error" id="err-phone">Formato inválido. Use dígitos, espaços, traços ou parênteses.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile_phone">Celular <span class="optional">(opcional)</span></label>
+        <input type="tel" id="mobile_phone" name="mobile_phone" placeholder="Ex: +55 11 9 9000-0000" />
+        <div class="field-error" id="err-mobile_phone">Formato inválido. Use dígitos, espaços, traços ou parênteses.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="linkedin_url">URL do LinkedIn <span class="optional">(opcional)</span></label>
+        <input type="url" id="linkedin_url" name="linkedin_url" placeholder="https://linkedin.com/in/joaosilva" />
+        <div class="field-error" id="err-linkedin_url">Informe uma URL válida (ex: https://linkedin.com/in/...).</div>
+      </div>
+
+      <div class="alert-error" id="server-error" role="alert"></div>
+
+      <button type="submit" class="btn-primary" id="submit-btn">
+        <span class="btn-label">Gerar Assinatura</span>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- ── Right column: Preview + Instructions ── -->
+  <div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+        </svg>
+        Preview da Assinatura
+      </div>
+
+      <div id="preview-placeholder">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+        Preencha o formulário e clique em<br>
+        <strong>Gerar Assinatura</strong> para visualizar o preview.
+      </div>
+
+      <iframe
+        id="preview-frame"
+        scrolling="no"
+        title="Preview da assinatura de e-mail"
+        sandbox="allow-same-origin"
+      ></iframe>
+
+      <div class="copy-area">
+        <button class="btn-copy" id="copy-btn" disabled aria-label="Copiar HTML da assinatura">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="copy-label">Copiar Assinatura</span>
+        </button>
+        <p class="copy-hint" id="copy-hint">
+          Cole diretamente no editor de assinaturas do Outlook — a formatação é preservada.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Como configurar no Outlook
+      </div>
+
+      <p class="section-label">Passo a passo</p>
+
+      <ol class="steps">
+        <li>Gere a assinatura preenchendo o formulário ao lado e clique em <strong>Copiar Assinatura</strong>.</li>
+        <li>No Outlook, acesse <strong>Arquivo</strong> → <strong>Opções</strong> → <strong>Email</strong> → <strong>Assinaturas…</strong></li>
+        <li>Clique em <strong>Nova</strong>, dê um nome (ex: <em>Assinatura BT Blue</em>) e confirme com <kbd>OK</kbd>.</li>
+        <li>Clique dentro do campo de texto da assinatura e pressione <kbd>Ctrl</kbd> + <kbd>V</kbd> para colar.</li>
+        <li>Em <em>Escolher assinatura padrão</em>, selecione esta assinatura para <strong>Novas mensagens</strong> e para <strong>Respostas/encaminhamentos</strong>.</li>
+        <li>Clique em <strong>OK</strong> para salvar. A assinatura estará ativa imediatamente.</li>
+      </ol>
+
+      <hr class="divider" />
+
+      <p class="note">
+        ⚠️ A assinatura é formatada em HTML. Ao colar no Outlook, a formatação visual
+        é mantida automaticamente — não é necessário nenhum ajuste adicional.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const form       = document.getElementById('signature-form');
+  const submitBtn  = document.getElementById('submit-btn');
+  const copyBtn    = document.getElementById('copy-btn');
+  const copyLabel  = document.getElementById('copy-label');
+  const copyHint   = document.getElementById('copy-hint');
+  const previewFrame       = document.getElementById('preview-frame');
+  const previewPlaceholder = document.getElementById('preview-placeholder');
+  const serverError        = document.getElementById('server-error');
+
+  let currentHtml = null;
+
+  // ── Validation helpers ──────────────────────────────────────────────────────
+
+  const PHONE_RE = /^\+?[\d\s\-(). ]{7,20}$/;
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  }
+
+  function isValidPhone(v) {
+    return PHONE_RE.test(v);
+  }
+
+  function isValidUrl(v) {
+    try { new URL(v); return true; } catch { return false; }
+  }
+
+  function showFieldError(id, msg) {
+    const input = document.getElementById(id);
+    const err   = document.getElementById('err-' + id);
+    input.classList.add('error');
+    if (msg) err.textContent = msg;
+    err.classList.add('visible');
+  }
+
+  function clearFieldError(id) {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById('err-' + id).classList.remove('visible');
+  }
+
+  function validate() {
+    let valid = true;
+
+    ['full_name', 'job_title', 'department'].forEach(id => {
+      if (!document.getElementById(id).value.trim()) {
+        showFieldError(id, null);
+        valid = false;
+      } else {
+        clearFieldError(id);
+      }
+    });
+
+    const email = document.getElementById('corporate_email').value.trim();
+    if (!email || !isValidEmail(email)) {
+      showFieldError('corporate_email', null);
+      valid = false;
+    } else {
+      clearFieldError('corporate_email');
+    }
+
+    const phone = document.getElementById('phone').value.trim();
+    if (phone && !isValidPhone(phone)) {
+      showFieldError('phone', null);
+      valid = false;
+    } else {
+      clearFieldError('phone');
+    }
+
+    const mobile = document.getElementById('mobile_phone').value.trim();
+    if (mobile && !isValidPhone(mobile)) {
+      showFieldError('mobile_phone', null);
+      valid = false;
+    } else {
+      clearFieldError('mobile_phone');
+    }
+
+    const linkedin = document.getElementById('linkedin_url').value.trim();
+    if (linkedin && !isValidUrl(linkedin)) {
+      showFieldError('linkedin_url', null);
+      valid = false;
+    } else {
+      clearFieldError('linkedin_url');
+    }
+
+    return valid;
+  }
+
+  // Re-validate a field live after the user has already seen its error
+  ['full_name', 'job_title', 'department', 'corporate_email', 'phone', 'mobile_phone', 'linkedin_url']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      const revalidate = () => {
+        if (document.getElementById('err-' + id).classList.contains('visible')) validate();
+      };
+      el.addEventListener('input', revalidate);
+      el.addEventListener('blur',  revalidate);
+    });
+
+  // ── Build JSON payload ──────────────────────────────────────────────────────
+
+  function buildPayload() {
+    const val = id => document.getElementById(id).value.trim() || null;
+    return {
+      full_name:        val('full_name'),
+      job_title:        val('job_title'),
+      department:       val('department'),
+      corporate_email:  val('corporate_email'),
+      phone:            val('phone'),
+      mobile_phone:     val('mobile_phone'),
+      linkedin_url:     val('linkedin_url'),
+    };
+  }
+
+  // ── Preview ─────────────────────────────────────────────────────────────────
+
+  function showPreview(html) {
+    currentHtml = html;
+    previewPlaceholder.style.display = 'none';
+    previewFrame.style.display = 'block';
+    previewFrame.srcdoc = html;
+    previewFrame.onload = () => {
+      try {
+        const body = previewFrame.contentDocument.body;
+        previewFrame.style.height = (body.scrollHeight + 20) + 'px';
+      } catch (_) {
+        previewFrame.style.height = '190px';
+      }
+    };
+    copyBtn.disabled = false;
+    copyHint.style.display = 'block';
+  }
+
+  // ── Form submit ─────────────────────────────────────────────────────────────
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    serverError.classList.remove('visible');
+
+    if (!validate()) return;
+
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch('/signatures/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildPayload()),
+      });
+
+      if (!response.ok) {
+        let message = 'Erro ao gerar assinatura. Verifique os dados e tente novamente.';
+        try {
+          const data = await response.json();
+          if (Array.isArray(data?.detail)) {
+            message = data.detail.map(d => d.msg).join(' • ');
+          } else if (typeof data?.detail === 'string') {
+            message = data.detail;
+          }
+        } catch (_) { /* keep default message */ }
+        serverError.textContent = message;
+        serverError.classList.add('visible');
+        return;
+      }
+
+      const html = await response.text();
+      showPreview(html);
+    } catch (_) {
+      serverError.textContent = 'Falha de comunicação com o servidor. Verifique sua conexão e tente novamente.';
+      serverError.classList.add('visible');
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ── Copy to clipboard ───────────────────────────────────────────────────────
+
+  copyBtn.addEventListener('click', async () => {
+    if (!currentHtml) return;
+
+    try {
+      // Write as rich HTML so Outlook's signature editor preserves formatting on paste
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'text/html': new Blob([currentHtml], { type: 'text/html' }) }),
+      ]);
+    } catch (_) {
+      // Fallback: copy raw HTML source as plain text
+      await navigator.clipboard.writeText(currentHtml);
+    }
+
+    copyLabel.textContent = '✓ Copiado!';
+    copyBtn.classList.add('copied');
+    setTimeout(() => {
+      copyLabel.textContent = 'Copiar Assinatura';
+      copyBtn.classList.remove('copied');
+    }, 2500);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+openapi: 3.0.3
+info:
+  title: BT Blue Signature Generator API
+  version: 1.1.0
+  description: API interna segura para geração de assinaturas de e-mail (BT Blue)
+
+servers:
+  - url: https://signatures.btblue.internal
+    description: Produção
+  - url: http://localhost:8000
+    description: Local
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Health
+  - name: Signatures
+  - name: Employees
+  - name: Brand Settings
+  - name: Templates
+
+paths:
+
+  /api/health:
+    get:
+      tags: [Health]
+      summary: Health check
+      security: []
+      responses:
+        "200":
+          description: OK
+
+  /api/signatures/render:
+    post:
+      tags: [Signatures]
+      summary: Gerar assinatura (sem persistir)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignatureRenderRequest"
+      responses:
+        "200":
+          description: Assinatura gerada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignatureRenderResponse"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /api/signatures:
+    post:
+      tags: [Signatures]
+      summary: Gerar e persistir assinatura
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSignatureRequest"
+      responses:
+        "201":
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailSignature"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+    get:
+      tags: [Signatures]
+      summary: Listar assinaturas (paginado)
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedSignatures"
+
+  /api/employees:
+    post:
+      tags: [Employees]
+      summary: Criar colaborador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmployeeRequest"
+      responses:
+        "201":
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+    get:
+      tags: [Employees]
+      summary: Listar colaboradores
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedEmployees"
+
+  /api/brand-settings:
+    get:
+      tags: [Brand Settings]
+      summary: Obter configurações
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandSettings"
+
+    put:
+      tags: [Brand Settings]
+      summary: Atualizar configurações
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBrandSettingsRequest"
+      responses:
+        "200":
+          description: Atualizado
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PageSize:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  responses:
+    Unauthorized:
+      description: Não autenticado
+
+    Forbidden:
+      description: Sem permissão
+
+    ValidationError:
+      description: Erro de validação
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+
+    ErrorResponse:
+      type: object
+      required: [code, message, request_id]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        request_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    SignatureRenderRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - employee_id
+        - template_id
+      properties:
+        employee_id:
+          type: integer
+        template_id:
+          type: integer
+
+    SignatureRenderResponse:
+      type: object
+      properties:
+        html_content:
+          type: string
+        plain_text_content:
+          type: string
+
+    CreateSignatureRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - employee_id
+        - template_id
+      properties:
+        employee_id:
+          type: integer
+        template_id:
+          type: integer
+
+    EmailSignature:
+      type: object
+      properties:
+        id:
+          type: integer
+        employee_id:
+          type: integer
+        template_id:
+          type: integer
+        html_content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CreateEmployeeRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - full_name
+        - corporate_email
+        - department_id
+        - job_title_id
+      properties:
+        full_name:
+          type: string
+          maxLength: 120
+        corporate_email:
+          type: string
+          format: email
+        phone:
+          type: string
+          maxLength: 20
+        mobile_phone:
+          type: string
+          maxLength: 20
+        linkedin_url:
+          type: string
+          format: uri
+        department_id:
+          type: integer
+        job_title_id:
+          type: integer
+
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+        full_name:
+          type: string
+        corporate_email:
+          type: string
+
+    PaginatedEmployees:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Employee"
+        total:
+          type: integer
+
+    PaginatedSignatures:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailSignature"
+        total:
+          type: integer
+
+    UpdateBrandSettingsRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - company_name
+        - logo_url
+      properties:
+        company_name:
+          type: string
+          maxLength: 120
+        logo_url:
+          type: string
+          format: uri
+        primary_color:
+          type: string
+          pattern: "^#([A-Fa-f0-9]{6})$"
+        secondary_color:
+          type: string
+          pattern: "^#([A-Fa-f0-9]{6})$"
+        disclaimer_html:
+          type: string
+          maxLength: 5000
+
+    BrandSettings:
+      type: object
+      properties:
+        company_name:
+          type: string
+        logo_url:
+          type: string
