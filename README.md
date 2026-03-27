@@ -586,6 +586,6 @@ Propriedade Intelectual – BT Blue (2026)
 
 ---
 
-**Desenvolvido com ❤️ para BT Blue**
+**Desenvolvido para BT Blue**
 
 *Último update: Março 2026*
