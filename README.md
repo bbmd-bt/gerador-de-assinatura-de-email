@@ -1,48 +1,48 @@
-# ?? Gerador de Assinatura de E-mail
+ï»¿# ğŸ“§ Gerador de Assinatura de E-mail
 
-Gerador interativo de assinaturas de e-mail HTML padronizadas para a BT Blue. API robusta desenvolvida com FastAPI, PostgreSQL e arquitetura em camadas para máxima escalabilidade e manutenibilidade.
+Gerador interativo de assinaturas de e-mail HTML padronizadas para a BT Blue. API robusta desenvolvida com FastAPI, PostgreSQL e arquitetura em camadas para mÃ¡xima escalabilidade e manutenibilidade.
 
 **Repository**: [github.com/bbmd-bt/gerador-de-assinatura-de-email](https://github.com/bbmd-bt/gerador-de-assinatura-de-email)
 
-## ?? Visão Geral
+## ğŸ¯ VisÃ£o Geral
 
-O **Gerador de Assinatura de E-mail** é uma aplicação enterprise que centraliza a geração e distribuição de assinaturas HTML padronizadas para e-mail corporativo. Substitui processos manuais e inconsistentes por uma API robusta com templates dinâmicos, suporte multi-marca e persistência em PostgreSQL.
+O **Gerador de Assinatura de E-mail** Ã© uma aplicaÃ§Ã£o enterprise que centraliza a geraÃ§Ã£o e distribuiÃ§Ã£o de assinaturas HTML padronizadas para e-mail corporativo. Substitui processos manuais e inconsistentes por uma API robusta com templates dinÃ¢micos, suporte multi-marca e persistÃªncia em PostgreSQL.
 
 ### Recursos Principais
 
-- ? **API RESTful** completa em FastAPI
-- ? **Template Engine** dinâmico com Jinja2
-- ? **Arquitetura em camadas** (Repository, Service, API)
-- ? **Database-first** com SQLAlchemy ORM + Alembic migrations
-- ? **Containerizado** com Docker & Docker Compose
-- ? **CI/CD Automático** com GitHub Actions
-- ? **Testes** abrangentes (pytest, coverage >= 70%)
-- ? **Documentação** interativa via Swagger/OpenAPI
+- âœ… **API RESTful** completa em FastAPI
+- âœ… **Template Engine** dinÃ¢mico com Jinja2
+- âœ… **Arquitetura em camadas** (Repository, Service, API)
+- âœ… **Database-first** com SQLAlchemy ORM + Alembic migrations
+- âœ… **Containerizado** com Docker & Docker Compose
+- âœ… **CI/CD AutomÃ¡tico** com GitHub Actions
+- âœ… **Testes** abrangentes (pytest, coverage >= 70%)
+- âœ… **DocumentaÃ§Ã£o** interativa via Swagger/OpenAPI
 
 ---
 
-## ??? Technology Stack
+## ğŸ› ï¸ Technology Stack
 
 ### Core Runtime & Web Framework
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **Python** | >= 3.11 | Runtime |
 | **FastAPI** | >= 0.115.0 | HTTP Web Framework |
 | **Uvicorn** | >= 0.30.0 | ASGI Server |
 
-### Persistência & ORM
+### PersistÃªncia & ORM
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **PostgreSQL** | 15+ | Database |
 | **SQLAlchemy** | >= 2.0.0 | ORM (Object-Relational Mapping) |
 | **psycopg** | >= 3.2.0 | PostgreSQL adapter |
 | **Alembic** | >= 1.13.0 | Database migrations & versioning |
 
-### Validação & Serialização
+### ValidaÃ§Ã£o & SerializaÃ§Ã£o
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **Pydantic** | >= 2.7.0 | Data validation & serialization |
 | **Pydantic-Settings** | >= 2.3.0 | Environment configuration |
@@ -50,21 +50,21 @@ O **Gerador de Assinatura de E-mail** é uma aplicação enterprise que centraliza 
 
 ### Templating
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **Jinja2** | >= 3.1.0 | HTML template engine |
 
 ### Desenvolvimento & Testes
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **pytest** | >= 8.0.0 | Testing framework |
 | **pytest-asyncio** | >= 0.23.0 | Async test support |
 | **httpx** | >= 0.27.0 | HTTP client for API testing |
 
-### Segurança & Qualidade
+### SeguranÃ§a & Qualidade
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **Bandit** | Latest | Security scanning |
 | **Safety** | Latest | Dependency vulnerability check |
@@ -72,156 +72,154 @@ O **Gerador de Assinatura de E-mail** é uma aplicação enterprise que centraliza 
 
 ### DevOps & Infrastructure
 
-| Componente | Versão | Propósito |
+| Componente | VersÃ£o | PropÃ³sito |
 |-----------|--------|----------|
 | **Docker** | Latest | Containerization |
 | **Docker Compose** | Latest | Local development orchestration |
 
-**Python 3.11 é o mínimo** para garantir features modernas e performance.
-
 ---
 
-## ??? Arquitetura
+## ğŸ—ï¸ Arquitetura
 
-### Visão Geral
+### VisÃ£o Geral
 
-A aplicação segue uma **arquitetura em camadas** que separa responsabilidades e facilita testes e manutenção:
+A aplicaÃ§Ã£o segue uma **arquitetura em camadas** que separa responsabilidades e facilita testes e manutenÃ§Ã£o:
 
 ```
 HTTP Request
-    ?
-[API Routes] ? Validate request ? Dependency Injection (FastAPI)
-    ?
-[Services] ? Business Logic ? Validation (Pydantic)
-    ?
-[Repository] ? Data Access Queries (SQLAlchemy ORM)
-    ?
-[Database] ? PostgreSQL
-    ?
-[Services] ? Template Rendering (Jinja2)
-    ?
+    â†“
+[API Routes] â†’ Validate request â†’ Dependency Injection (FastAPI)
+    â†“
+[Services] â†’ Business Logic â†’ Validation (Pydantic)
+    â†“
+[Repository] â†’ Data Access Queries (SQLAlchemy ORM)
+    â†“
+[Database] â† PostgreSQL
+    â†“
+[Services] â†’ Template Rendering (Jinja2)
+    â†“
 HTTP Response (JSON/HTML)
 ```
 
 ### Camadas de Arquitetura
 
 #### 1. **API Layer** (`app/api/`)
-Manipulação de requisições HTTP e roteamento.
-- Validação de entrada via Pydantic schemas
-- Serialização de respostas
-- Injeção de dependências via `FastAPI.Depends()`
+ManipulaÃ§Ã£o de requisiÃ§Ãµes HTTP e roteamento.
+- ValidaÃ§Ã£o de entrada via Pydantic schemas
+- SerializaÃ§Ã£o de respostas
+- InjeÃ§Ã£o de dependÃªncias via `FastAPI.Depends()`
 
 #### 2. **Domain Layer** (`app/domain/`)
-Entidades de negócio e contratos de dados.
+Entidades de negÃ³cio e contratos de dados.
 - **Models**: SQLAlchemy ORM models
 - **Schemas**: Pydantic request/response schemas
 
 #### 3. **Service Layer** (`app/infrastructure/services/`)
-Lógica de negócio e orquestração.
-- `employee_service.py` - Operações de funcionários
-- `signature_service.py` - Geração de assinaturas
+LÃ³gica de negÃ³cio e orquestraÃ§Ã£o.
+- `employee_service.py` - OperaÃ§Ãµes de funcionÃ¡rios
+- `signature_service.py` - GeraÃ§Ã£o de assinaturas
 - `template_service.py` - Processamento de templates
-- `validation_service.py` - Validações de regras de negócio
+- `validation_service.py` - ValidaÃ§Ãµes de regras de negÃ³cio
 
 #### 4. **Repository/Data Layer** (`app/infrastructure/repository/`)
-Abstração de acesso a dados.
+AbstraÃ§Ã£o de acesso a dados.
 - Queries SQLAlchemy
-- Gerenciamento de transações
+- Gerenciamento de transaÃ§Ãµes
 - Retorna ORM models
 
 #### 5. **Core** (`app/core/`)
-Configuração e segurança.
-- `config.py` - Variáveis de ambiente
-- `security.py` - Utilidades de autenticação
-- `settings.py` - Modelo de configuração Pydantic
+ConfiguraÃ§Ã£o e seguranÃ§a.
+- `config.py` - VariÃ¡veis de ambiente
+- `security.py` - Utilidades de autenticaÃ§Ã£o
+- `settings.py` - Modelo de configuraÃ§Ã£o Pydantic
 
-### Padrões de Design Utilizados
+### PadrÃµes de Design Utilizados
 
-- **Repository Pattern**: Abstração da camada de dados
-- **Service Pattern**: Lógica de negócio separada
-- **Dependency Injection**: Injeção de dependências via FastAPI
+- **Repository Pattern**: AbstraÃ§Ã£o da camada de dados
+- **Service Pattern**: LÃ³gica de negÃ³cio separada
+- **Dependency Injection**: InjeÃ§Ã£o de dependÃªncias via FastAPI
 - **ORM Abstraction**: Models SQLAlchemy isolados de schemas
-- **Template Engine**: Jinja2 para renderização dinâmica
+- **Template Engine**: Jinja2 para renderizaÃ§Ã£o dinÃ¢mica
 
 ---
 
-## ?? Estrutura do Projeto
+## ğŸ“ Estrutura do Projeto
 
 ```
 .
-+-- app/                          # Código da aplicação
-¦   +-- main.py                  # Ponto de entrada FastAPI
-¦   +-- api/                     # Camada de rotas HTTP
-¦   ¦   +-- routes/
-¦   ¦   ¦   +-- health.py       # Health check
-¦   ¦   ¦   +-- employees.py    # Employee CRUD
-¦   ¦   ¦   +-- signature.py    # Signature generation
-¦   ¦   +-- dependencies.py      # FastAPI dependencies
-¦   +-- domain/                  # Entidades de negócio
-¦   ¦   +-- models/             # SQLAlchemy ORM
-¦   ¦   +-- schemas/            # Pydantic schemas
-¦   +-- infrastructure/          # Infraestrutura
-¦   ¦   +-- repository/         # Data access layer
-¦   ¦   +-- services/           # Business logic
-¦   +-- core/                    # Configuração
-¦   ¦   +-- config.py
-¦   ¦   +-- security.py
-¦   ¦   +-- settings.py
-¦   +-- static/                  # Ativos estáticos
-¦       +-- templates/          # Templates Jinja2
-¦
-+-- tests/                        # Suite de testes
-¦   +-- conftest.py             # Fixtures globais do pytest
-¦   +-- test_*.py               # Testes de rotas
-¦   +-- unit/                   # Testes unitários
-¦   +-- integration/            # Testes de integração
-¦
-+-- alembic/                      # Database migrations
-¦   +-- versions/               # Migration files
-¦   +-- alembic.ini
-¦
-+-- docs/                         # Documentação
-¦   +-- API.md
-¦   +-- Database.md
-¦   +-- Development.md
-¦
-+-- .github/                      # Configuração GitHub
-¦   +-- workflows/              # GitHub Actions CI/CD
-¦   ¦   +-- ci.yml
-¦   +-- copilot/                # Guidelines GitHub Copilot
-¦   ¦   +-- Architecture.md
-¦   ¦   +-- Technology_Stack.md
-¦   ¦   +-- Project_Folder_Structure.md
-¦   ¦   +-- Coding_Standards.md
-¦   ¦   +-- Unit_Tests.md
-¦   ¦   +-- Code_Exemplars.md
-¦   ¦   +-- Workflow_Analysis.md
-¦   +-- skills/                 # Custom Copilot skills
-¦
-+-- Dockerfile                    # Container image
-+-- docker-compose.yml           # Local dev orchestration
-+-- pyproject.toml              # Configuração Python
-+-- .env.example                # Template de variáveis de ambiente
-+-- .gitignore                  # Git ignore rules
-+-- README.md                   # Este arquivo
+â”œâ”€â”€ app/                          # CÃ³digo da aplicaÃ§Ã£o
+â”‚   â”œâ”€â”€ main.py                  # Ponto de entrada FastAPI
+â”‚   â”œâ”€â”€ api/                     # Camada de rotas HTTP
+â”‚   â”‚   â”œâ”€â”€ routes/
+â”‚   â”‚   â”‚   â”œâ”€â”€ health.py       # Health check
+â”‚   â”‚   â”‚   â”œâ”€â”€ employees.py    # Employee CRUD
+â”‚   â”‚   â”‚   â””â”€â”€ signature.py    # Signature generation
+â”‚   â”‚   â””â”€â”€ dependencies.py      # FastAPI dependencies
+â”‚   â”œâ”€â”€ domain/                  # Entidades de negÃ³cio
+â”‚   â”‚   â”œâ”€â”€ models/             # SQLAlchemy ORM
+â”‚   â”‚   â””â”€â”€ schemas/            # Pydantic schemas
+â”‚   â”œâ”€â”€ infrastructure/          # Infraestrutura
+â”‚   â”‚   â”œâ”€â”€ repository/         # Data access layer
+â”‚   â”‚   â””â”€â”€ services/           # Business logic
+â”‚   â”œâ”€â”€ core/                    # ConfiguraÃ§Ã£o
+â”‚   â”‚   â”œâ”€â”€ config.py
+â”‚   â”‚   â”œâ”€â”€ security.py
+â”‚   â”‚   â””â”€â”€ settings.py
+â”‚   â””â”€â”€ static/                  # Ativos estÃ¡ticos
+â”‚       â””â”€â”€ templates/          # Templates Jinja2
+â”‚
+â”œâ”€â”€ tests/                        # Suite de testes
+â”‚   â”œâ”€â”€ conftest.py             # Fixtures globais do pytest
+â”‚   â”œâ”€â”€ test_*.py               # Testes de rotas
+â”‚   â”œâ”€â”€ unit/                   # Testes unitÃ¡rios
+â”‚   â””â”€â”€ integration/            # Testes de integraÃ§Ã£o
+â”‚
+â”œâ”€â”€ alembic/                      # Database migrations
+â”‚   â”œâ”€â”€ versions/               # Migration files
+â”‚   â””â”€â”€ alembic.ini
+â”‚
+â”œâ”€â”€ docs/                         # DocumentaÃ§Ã£o
+â”‚   â”œâ”€â”€ API.md
+â”‚   â”œâ”€â”€ Database.md
+â”‚   â””â”€â”€ Development.md
+â”‚
+â”œâ”€â”€ .github/                      # ConfiguraÃ§Ã£o GitHub
+â”‚   â”œâ”€â”€ workflows/              # GitHub Actions CI/CD
+â”‚   â”‚   â””â”€â”€ ci.yml
+â”‚   â”œâ”€â”€ copilot/                # Guidelines GitHub Copilot
+â”‚   â”‚   â”œâ”€â”€ Architecture.md
+â”‚   â”‚   â”œâ”€â”€ Technology_Stack.md
+â”‚   â”‚   â”œâ”€â”€ Project_Folder_Structure.md
+â”‚   â”‚   â”œâ”€â”€ Coding_Standards.md
+â”‚   â”‚   â”œâ”€â”€ Unit_Tests.md
+â”‚   â”‚   â”œâ”€â”€ Code_Exemplars.md
+â”‚   â”‚   â””â”€â”€ Workflow_Analysis.md
+â”‚   â””â”€â”€ skills/                 # Custom Copilot skills
+â”‚
+â”œâ”€â”€ Dockerfile                    # Container image
+â”œâ”€â”€ docker-compose.yml           # Local dev orchestration
+â”œâ”€â”€ pyproject.toml              # ConfiguraÃ§Ã£o Python
+â”œâ”€â”€ .env.example                # Template de variÃ¡veis de ambiente
+â”œâ”€â”€ .gitignore                  # Git ignore rules
+â””â”€â”€ README.md                   # Este arquivo
 ```
 
 Veja [.github/copilot/Project_Folder_Structure.md](.github/copilot/Project_Folder_Structure.md) para detalhes completos.
 
 ---
 
-## ?? Getting Started
+## ğŸš€ Getting Started
 
-### Pré-requisitos
+### PrÃ©-requisitos
 
 - **Python 3.11+** - [Download](https://www.python.org/downloads/)
 - **Docker & Docker Compose** - [Download](https://www.docker.com/products/docker-desktop)
 - **PostgreSQL 15+** (ou use Docker)
 - **Git** - [Download](https://git-scm.com/)
 
-### Instalação
+### InstalaÃ§Ã£o
 
-#### 1. Clone o Repositório
+#### 1. Clone o RepositÃ³rio
 
 ```bash
 git clone https://github.com/bbmd-bt/gerador-de-assinatura-de-email.git
@@ -242,29 +240,29 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-#### 3. Instale Dependências
+#### 3. Instale DependÃªncias
 
 Para **desenvolvimento** (com testes e ferramentas):
 ```bash
 pip install -e ".[dev]"
 ```
 
-Para **produção**:
+Para **produÃ§Ã£o**:
 ```bash
 pip install .
 ```
 
-#### 4. Configure Variáveis de Ambiente
+#### 4. Configure VariÃ¡veis de Ambiente
 
 ```bash
 # Copie o template
 cp .env.example .env
 
-# Edite com suas configurações
+# Edite com suas configuraÃ§Ãµes
 # (ou deixe os defaults para desenvolvimento local)
 ```
 
-**Arquivo `.env` padrão**:
+**Arquivo `.env` padrÃ£o**:
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/gerador_email
 API_HOST=0.0.0.0
@@ -274,31 +272,31 @@ DEBUG=false
 
 ---
 
-## ?? Execução
+## ğŸ’» ExecuÃ§Ã£o
 
-### Opção 1: Docker Compose (Recomendado para Dev)
+### OpÃ§Ã£o 1: Docker Compose (Recomendado para Dev)
 
-Inicia aplicação + PostgreSQL em containers:
+Inicia aplicaÃ§Ã£o + PostgreSQL em containers:
 
 ```bash
 docker-compose up --build
 ```
 
 **Acesso**:
-- ?? API: http://localhost:8001
-- ?? Swagger Docs: http://localhost:8001/docs
-- ?? ReDoc: http://localhost:8001/redoc
+- ğŸŒ API: http://localhost:8001
+- ğŸ“š Swagger Docs: http://localhost:8001/docs
+- ğŸ”§ ReDoc: http://localhost:8001/redoc
 
-### Opção 2: Uvicorn Local
+### OpÃ§Ã£o 2: Uvicorn Local
 
 ```bash
-# Certifique-se que PostgreSQL está rodando
+# Certifique-se que PostgreSQL estÃ¡ rodando
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8001
 ```
 
-**Disponível em**: http://localhost:8001/docs
+**DisponÃ­vel em**: http://localhost:8001/docs
 
-### Opção 3: Produção
+### OpÃ§Ã£o 3: ProduÃ§Ã£o
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
@@ -306,7 +304,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 ---
 
-## ?? Testes
+## ğŸ§ª Testes
 
 ### Executar Todos os Testes
 
@@ -320,7 +318,7 @@ pytest
 pytest --cov=app --cov-report=html --cov-report=term
 ```
 
-Abre relatório em `htmlcov/index.html`
+Abre relatÃ³rio em `htmlcov/index.html`
 
 ### Modo Watch (Requer pytest-watch)
 
@@ -329,19 +327,19 @@ pip install pytest-watch
 ptw
 ```
 
-### Testes Específicos
+### Testes EspecÃ­ficos
 
 ```bash
 # Arquivo especifico
 pytest tests/test_employees.py
 
-# Função específica
+# FunÃ§Ã£o especÃ­fica
 pytest tests/test_employees.py::test_get_employee_by_id
 
 # Com verbosidade
 pytest -v
 
-# Apenas testes unitários
+# Apenas testes unitÃ¡rios
 pytest -m "unit"
 ```
 
@@ -351,7 +349,7 @@ Veja [.github/copilot/Unit_Tests.md](.github/copilot/Unit_Tests.md) para mais de
 
 ---
 
-## ?? Documentação API
+## ğŸ“– DocumentaÃ§Ã£o API
 
 ### Swagger (Recomendado)
 
@@ -369,9 +367,9 @@ Alternativa em: **http://localhost:8001/redoc**
 ```http
 GET /health
 ```
-Retorna status da aplicação.
+Retorna status da aplicaÃ§Ã£o.
 
-#### Funcionários
+#### FuncionÃ¡rios
 ```http
 GET    /employees              # Listar todos
 POST   /employees              # Criar novo
@@ -388,23 +386,23 @@ GET    /signatures/{id}        # Buscar gerada
 
 ---
 
-## ????? Padrões de Código
+## ğŸ‘¨â€ğŸ’» PadrÃµes de CÃ³digo
 
-### Convenções Python
+### ConvenÃ§Ãµes Python
 
 - **Estilo**: PEP 8
-- **Type Hints**: Obrigatórios em funções
+- **Type Hints**: ObrigatÃ³rios em funÃ§Ãµes
 - **Naming**:
   - Classes: `PascalCase` (ex: `EmployeeService`)
-  - Funções: `snake_case` (ex: `get_employee`)
+  - FunÃ§Ãµes: `snake_case` (ex: `get_employee`)
   - Constantes: `UPPER_SNAKE_CASE` (ex: `MAX_EMAIL_LENGTH`)
 
-### Padrões de Design
+### PadrÃµes de Design
 
-- ? **Repository Pattern**: Abstração de dados
-- ? **Service Pattern**: Lógica de negócio
-- ? **Dependency Injection**: Loose coupling
-- ? **ORM Abstraction**: Models isolados
+- âœ… **Repository Pattern**: AbstraÃ§Ã£o de dados
+- âœ… **Service Pattern**: LÃ³gica de negÃ³cio
+- âœ… **Dependency Injection**: Loose coupling
+- âœ… **ORM Abstraction**: Models isolados
 
 ### Commit Messages
 
@@ -423,9 +421,9 @@ Veja [.github/copilot/Coding_Standards.md](.github/copilot/Coding_Standards.md) 
 
 ---
 
-## ?? CI/CD Pipeline
+## ğŸ”„ CI/CD Pipeline
 
-### Automação GitHub Actions
+### AutomaÃ§Ã£o GitHub Actions
 
 Workflow em `.github/workflows/ci.yml` executa:
 
@@ -446,17 +444,17 @@ Workflow em `.github/workflows/ci.yml` executa:
 
 ---
 
-## ?? Estratégia de Branching
+## ğŸŒ³ EstratÃ©gia de Branching
 
 Seguimos **Git Flow simplificado**:
 
 ```
-main          (? production-ready)
-  ?
-  +-- develop  (? integration)
-      +-- feature/*
-      +-- bugfix/*
-      +-- refactor/*
+main          (â†‘ production-ready)
+  â†‘
+  â””â”€â”€ develop  (â†‘ integration)
+      â”œâ”€â”€ feature/*
+      â”œâ”€â”€ bugfix/*
+      â””â”€â”€ refactor/*
 ```
 
 ### Branch Naming
@@ -478,8 +476,8 @@ git commit -m "feat(scope): description"
 # 3. Push e criar PR
 git push origin feature/new-feature
 
-# 4. PR para develop (automático)
-# 5. Merge após aprovação
+# 4. PR para develop (automÃ¡tico)
+# 5. Merge apÃ³s aprovaÃ§Ã£o
 
 # 6. Release para main (periodicamente)
 ```
@@ -488,7 +486,7 @@ Veja [.github/copilot/Workflow_Analysis.md](.github/copilot/Workflow_Analysis.md
 
 ---
 
-## ?? Deployment
+## ğŸ“‹ Deployment
 
 ### Local Development
 
@@ -498,7 +496,7 @@ docker-compose up --build
 
 ### Staging/Production
 
-Deployments automáticos via GitHub Actions ao fazer tag:
+Deployments automÃ¡ticos via GitHub Actions ao fazer tag:
 
 ```bash
 git tag v0.x.x
@@ -509,32 +507,32 @@ Builds Docker image e push para GitHub Container Registry.
 
 ---
 
-## ?? Segurança
+## ğŸ”’ SeguranÃ§a
 
-### Boas Práticas
+### Boas PrÃ¡ticas
 
-- ? **Variáveis de Ambiente**: Nunca hardcode secrets
-- ? **Validação de Input**: Pydantic + validators personalizados
-- ? **Queries Parametrizadas**: SQLAlchemy ORM
-- ? **Email Validation**: `email-validator` library
-- ? **Segurança em Templates**: Jinja2 autoescape ativado
+- âœ… **VariÃ¡veis de Ambiente**: Nunca hardcode secrets
+- âœ… **ValidaÃ§Ã£o de Input**: Pydantic + validators personalizados
+- âœ… **Queries Parametrizadas**: SQLAlchemy ORM
+- âœ… **Email Validation**: `email-validator` library
+- âœ… **SeguranÃ§a em Templates**: Jinja2 autoescape ativado
 
 ### Scanning
 
 CI/CD roda:
-- **Bandit**: Vulnerabilidades em código Python
-- **Safety**: Vulnerabilidades em dependências
+- **Bandit**: Vulnerabilidades em cÃ³digo Python
+- **Safety**: Vulnerabilidades em dependÃªncias
 
 ---
 
-## ?? Contribuindo
+## ğŸ¤ Contribuindo
 
 ### Como Contribuir
 
-1. **Fork** o repositório
+1. **Fork** o repositÃ³rio
 2. **Clone** seu fork: `git clone https://github.com/seu-usuario/gerador-de-assinatura-de-email.git`
 3. **Crie branch**: `git checkout -b feature/sua-feature develop`
-4. **Faça commits**: `git commit -m "feat(scope): description"`
+4. **FaÃ§a commits**: `git commit -m "feat(scope): description"`
 5. **Push**: `git push origin feature/sua-feature`
 6. **Abra PR** contra `develop`
 
@@ -543,51 +541,51 @@ CI/CD roda:
 - [ ] Testes adicionados/atualizados
 - [ ] Cobertura >= 70%
 - [ ] Sem warnings do Flake8
-- [ ] Tipo hints em novas funções
+- [ ] Tipo hints em novas funÃ§Ãµes
 - [ ] Docstrings atualizadas
-- [ ] README atualizado (se necessário)
+- [ ] README atualizado (se necessÃ¡rio)
 - [ ] Commits com mensagens descritivas
 
-### Código de Conduta
+### CÃ³digo de Conduta
 
-Respeitamos todos os contribuidores. Comportamento abusivo não será tolerado.
-
----
-
-## ?? Referências Adicionais
-
-- ?? [Architecture Documentation](.github/copilot/Architecture.md)
-- ??? [Coding Standards](.github/copilot/Coding_Standards.md)
-- ?? [Testing Guide](.github/copilot/Unit_Tests.md)
-- ?? [Code Exemplars](.github/copilot/Code_Exemplars.md)
-- ?? [Workflow Analysis](.github/copilot/Workflow_Analysis.md)
-- ??? [Project Structure](.github/copilot/Project_Folder_Structure.md)
-- ?? [Tech Stack](.github/copilot/Technology_Stack.md)
+Respeitamos todos os contribuidores. Comportamento abusivo nÃ£o serÃ¡ tolerado.
 
 ---
 
-## ?? Suporte
+## ğŸ“š ReferÃªncias Adicionais
+
+- ğŸ“– [Architecture Documentation](.github/copilot/Architecture.md)
+- ğŸ› ï¸ [Coding Standards](.github/copilot/Coding_Standards.md)
+- ğŸ§ª [Testing Guide](.github/copilot/Unit_Tests.md)
+- ğŸ’¡ [Code Exemplars](.github/copilot/Code_Exemplars.md)
+- ğŸ”„ [Workflow Analysis](.github/copilot/Workflow_Analysis.md)
+- ğŸ—ï¸ [Project Structure](.github/copilot/Project_Folder_Structure.md)
+- ğŸ“¦ [Tech Stack](.github/copilot/Technology_Stack.md)
+
+---
+
+## ğŸ“ Suporte
 
 ### Reportar Bugs
 
 - Abra uma [Issue](https://github.com/bbmd-bt/gerador-de-assinatura-de-email/issues) com:
-  - Descrição clara do problema
+  - DescriÃ§Ã£o clara do problema
   - Passos para reproduzir
   - Comportamento esperado vs. atual
   - Ambiente (Python version, OS, etc.)
 
-### Sugestões
+### SugestÃµes
 
 Use [Discussions](https://github.com/bbmd-bt/gerador-de-assinatura-de-email/discussions) para ideias e perguntas.
 
 ---
 
-## ?? Licença
+## ğŸ“„ LicenÃ§a
 
-Propriedade Intelectual – BT Blue (2026)
+Propriedade Intelectual â€“ BT Blue (2026)
 
 ---
 
-**Desenvolvido com ?? para BT Blue**
+**Desenvolvido com â¤ï¸ para BT Blue**
 
-*Último update: Março 2026*
+*Ãšltimo update: MarÃ§o 2026*
